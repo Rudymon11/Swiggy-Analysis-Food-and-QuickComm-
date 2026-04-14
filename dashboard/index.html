@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swiggy PriceOps — Pricing Intelligence Dashboard</title>
+  <meta name="description" content="Internal pricing analytics dashboard for Swiggy Food and Instamart business lines." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ─── Sidebar ─────────────────────────────────────── -->
+  <nav id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#fc8019"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <span class="brand-name">PriceOps</span>
+        <span class="brand-sub">Swiggy Internal</span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active" data-tab="overview" id="nav-overview">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/></svg>
+        Overview</a></li>
+      <li><a href="#" class="nav-link" data-tab="comparison" id="nav-comparison">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        BL Deep Dive</a></li>
+      <li><a href="#" class="nav-link" data-tab="simulator" id="nav-simulator">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2"/></svg>
+        Surge Simulator</a></li>
+      <li><a href="#" class="nav-link" data-tab="competitive" id="nav-competitive">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Competitive Intel</a></li>
+      <li><a href="#" class="nav-link" data-tab="roadmap" id="nav-roadmap">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Gap Analysis & Roadmap</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <span class="sidebar-badge">Pricing Analytics</span>
+    </div>
+  </nav>
+
+  <!-- ─── Main Content ────────────────────────────────── -->
+  <main id="main-content">
+
+    <!-- ── OVERVIEW TAB ──────────────────────────────── -->
+    <section id="tab-overview" class="tab-content active">
+      <div class="page-header">
+        <div>
+          <h1>Pricing Overview</h1>
+          <p class="page-subtitle">Unified view across Food Delivery & Instamart business lines</p>
+        </div>
+        <div class="header-pills">
+          <span class="pill pill-food">Food BL</span>
+          <span class="pill pill-im">Instamart BL</span>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="kpi-grid-overview"></div>
+
+      <div class="chart-row">
+        <div class="chart-card wide">
+          <h3 class="chart-title">Fee Load Distribution</h3>
+          <p class="chart-desc">Percentage of order value taken as fees — orders beyond the red line fall in the "Danger Zone"</p>
+          <canvas id="chart-fee-dist"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3 class="chart-title">Fee Stack Breakdown</h3>
+          <p class="chart-desc">Average fee components per business line</p>
+          <canvas id="chart-fee-stack"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="chart-card">
+          <h3 class="chart-title">Weather vs Surge (Food)</h3>
+          <p class="chart-desc">Impact of rain on applied surge fees</p>
+          <canvas id="chart-weather"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3 class="chart-title">City-wise Fee Load (Food)</h3>
+          <p class="chart-desc">Which cities have the highest pricing pressure on users?</p>
+          <canvas id="chart-city-fee"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="chart-card">
+          <h3 class="chart-title">Top Cuisines by AOV (Food)</h3>
+          <p class="chart-desc">Which cuisines drive the highest average order values?</p>
+          <canvas id="chart-cuisine"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3 class="chart-title">Top Categories by AOV (Instamart)</h3>
+          <p class="chart-desc">Which product categories drive the highest cart values?</p>
+          <canvas id="chart-category"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FOOD vs IM TAB ────────────────────────────── -->
+    <section id="tab-comparison" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Business Line Deep Dive</h1>
+          <p class="page-subtitle">Independent pricing structure analysis for each business line</p>
+        </div>
+      </div>
+
+      <div class="comparison-grid" id="comparison-grid"></div>
+
+      <div class="chart-row">
+        <div class="chart-card wide">
+          <h3 class="chart-title">City-wise Average Order Value</h3>
+          <p class="chart-desc">How AOV varies across the top cities for each BL</p>
+          <canvas id="chart-city-aov"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="chart-card">
+          <h3 class="chart-title">Meal / Time Slot Analysis (Food)</h3>
+          <p class="chart-desc">Avg fee load and AOV by time of day</p>
+          <canvas id="chart-time"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3 class="chart-title">Discount Impact on AOV & Fee Load (Food)</h3>
+          <p class="chart-desc">Do discounted orders have higher cart values and different fee burden?</p>
+          <canvas id="chart-discount"></canvas>
+        </div>
+      </div>
+
+      <div class="insight-cards" id="comparison-insights"></div>
+    </section>
+
+    <!-- ── SURGE SIMULATOR TAB ───────────────────────── -->
+    <section id="tab-simulator" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Surge Pricing Simulator</h1>
+          <p class="page-subtitle">Adjust pricing levers and observe the projected impact on conversion rates and revenue</p>
+        </div>
+      </div>
+
+      <div class="simulator-container">
+        <div class="sim-controls">
+          <h3>Pricing Levers</h3>
+          <div class="sim-group">
+            <label class="sim-label">
+              <span>Surge Multiplier</span>
+              <span class="sim-value" id="val-surge">1.0x</span>
+            </label>
+            <input type="range" id="slider-surge" min="0" max="3" step="0.1" value="1.0" />
+          </div>
+          <div class="sim-group">
+            <label class="sim-label">
+              <span>Delivery Fee Multiplier</span>
+              <span class="sim-value" id="val-delivery">1.0x</span>
+            </label>
+            <input type="range" id="slider-delivery" min="0.5" max="2" step="0.1" value="1.0" />
+          </div>
+          <div class="sim-group">
+            <label class="sim-label">
+              <span>Platform Fee (INR)</span>
+              <span class="sim-value" id="val-platform">18</span>
+            </label>
+            <input type="range" id="slider-platform" min="0" max="30" step="1" value="18" />
+          </div>
+          <div class="sim-group">
+            <label class="sim-label">
+              <span>Smart Cap Enabled</span>
+              <span class="sim-value" id="val-cap">OFF</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="toggle-cap" />
+              <span class="toggle-slider"></span>
+            </label>
+            <p class="sim-hint">Caps total fees at 20% of cart value</p>
+          </div>
+
+          <div class="sim-kpi-row" id="sim-kpis"></div>
+        </div>
+
+        <div class="sim-chart-area">
+          <div class="chart-card" style="height: 100%">
+            <h3 class="chart-title">Projected Conversion by Fee Load Bucket</h3>
+            <p class="chart-desc">Orange = baseline, Green = your configuration</p>
+            <canvas id="chart-sim-conversion"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COMPETITIVE INTEL TAB ─────────────────────── -->
+    <section id="tab-competitive" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Competitive Benchmarking</h1>
+          <p class="page-subtitle">How Swiggy's pricing structure compares to key competitors across Food and Quick-Commerce</p>
+        </div>
+      </div>
+
+      <h2 class="section-heading">Food Delivery Comparison</h2>
+      <div class="bench-table-wrap">
+        <table class="bench-table" id="bench-food">
+          <thead>
+            <tr>
+              <th>Pricing Dimension</th>
+              <th class="col-swiggy">Swiggy Food</th>
+              <th>Zomato</th>
+              <th>Magic Pin</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h2 class="section-heading" style="margin-top: 3rem">Quick-Commerce Comparison</h2>
+      <div class="bench-table-wrap">
+        <table class="bench-table" id="bench-qcom">
+          <thead>
+            <tr>
+              <th>Pricing Dimension</th>
+              <th class="col-swiggy">Swiggy Instamart</th>
+              <th>Blinkit</th>
+              <th>Zepto</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="insight-cards" id="competitive-insights"></div>
+    </section>
+
+    <!-- ── GAP ANALYSIS & ROADMAP TAB ────────────────── -->
+    <section id="tab-roadmap" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1>Gap Analysis & Dashboard Roadmap</h1>
+          <p class="page-subtitle">Identified pricing logic gaps and proposed feature enhancements for the internal Pricing Dashboard</p>
+        </div>
+      </div>
+
+      <h2 class="section-heading">Identified Gaps</h2>
+      <div class="gap-grid" id="gap-grid"></div>
+
+      <h2 class="section-heading" style="margin-top: 3rem">Proposed Roadmap</h2>
+      <div class="roadmap-timeline" id="roadmap-timeline"></div>
+    </section>
+
+  </main>
+
+  <script src="dashboard_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

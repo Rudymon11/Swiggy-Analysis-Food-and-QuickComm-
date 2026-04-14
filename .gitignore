@@ -1,0 +1,20 @@
+# Virtual environment
+venv/
+
+# Raw Kaggle dataset folders
+Food Ordering Behavior (India, 50K Orders) 2926/
+Quick Commerce Dataset 2026/
+Swiggy Restaurant Data - Bangalore 2025/
+swiggy Sentiment Analysis Dataset/
+swiggy dataset 2y ago/
+
+# Augmented CSVs (large, generated files)
+food_augmented.csv
+im_augmented.csv
+
+# Static visualizations (generated)
+Visualizations/
+
+# Python cache
+__pycache__/
+*.pyc
